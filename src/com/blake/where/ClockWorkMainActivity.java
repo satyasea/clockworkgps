@@ -250,6 +250,7 @@ here are the results from calling whereactivity for gps coordinates
         statusColor.setImageResource(R.drawable.orange_square);
         statusColor.setVisibility(View.VISIBLE);
         logout.setVisibility(View.INVISIBLE);
+        login.setVisibility(View.VISIBLE);
      //   quit.setVisibility(View.VISIBLE);
         welcome.setText("Clock data unavalable.");
         welcome.setTextColor(Color.YELLOW);
