@@ -30,11 +30,11 @@ public class WebServiceTask extends AsyncTask<String,Void,String>{
             return RestWebServices.getData(string1, string2);
         }
        else if(method==RestWebServices.POST_RETRIEVE_TYPE_ROW){
-            return RestWebServices.obtainLastEntryType(string1);
+            return ClockStateWebService.obtainLastEntryType(string1);
         }
         //use this method for single results
         else if (method== RestWebServices.POST_RETRIEVE_ROW){
-                return RestWebServices.postVerifyUserObtainWorkerId(string1, string2);
+                return LoginWebService.postVerifyUserObtainWorkerId(string1, string2);
         //use this method for multiple results
         }else if(method==RestWebServices.POST_RETRIEVE_ROWS){
             //show list of log entries
@@ -42,7 +42,7 @@ public class WebServiceTask extends AsyncTask<String,Void,String>{
         }
         else if(method==RestWebServices.POST_INSERT_ROW){
             //insert log intry
-            return RestWebServices.postEntry(103, 0, "124.6", "12.33");
+            return ClockPunchWebService.postClockPunchEntry(103, 0, "124.6", "12.33");
         }
         else return "";
     }

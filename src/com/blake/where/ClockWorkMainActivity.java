@@ -19,20 +19,21 @@ import java.util.List;
 
 public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
 
-    Button login;
-    Button logout;
-   // Button quit;
+
     boolean isLoggedIn = false;
     static String TARGET_EMAIL="saltyfog@gmail.com";
     static String TARGET_PHONE="8325881755";
     ImageView statusColor;
-    private List<String> dbRows= new ArrayList<String>();
+
     private TextView status,result;
     private TextView txt;
     private TextView welcome;
     private String[] coords = new String[2];
     static int ENTRY_TYPE_LOGIN = 0;
     static int ENTRY_TYPE_LOGOUT = 1;
+
+    Button login;
+    Button logout;
 
 
     /**
@@ -73,19 +74,18 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
 
         login.setOnClickListener(l);
         logout.setOnClickListener(l);
-     //   quit.setOnClickListener(l);
 
         //get worker id from previous loginactivity
         Intent intent = getIntent();
-        String message = intent.getStringExtra("worker_id");
-        if(message.length()==0){
+        String id = intent.getStringExtra("worker_id");
+        if(id.length()==0){
             txt.setText("Login Fail!");
         }else {
-            txt.setText( message);
+            txt.setText(id);
         }
 
         //check app login state / status, results are received by onTaskCompleted(String value)
-        new WebServiceTask(this,this,RestWebServices.POST_RETRIEVE_TYPE_ROW).execute(message,"");
+        new ClockStateTask(this,this).execute(id);
     }
 
     /*
@@ -113,17 +113,6 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
         super.onResume();
        //todo rebuild ui
         //check app login state / status
-        //get worker id from previous loginactivity
-        /*
-        Intent intent = getIntent();
-        String message = intent.getStringExtra("worker_id");
-        if(message.length()==0){
-            txt.setText("Login Fail!");
-        }else {
-            txt.setText(message);
-        }
-        new WebServiceTask(this,this,RestWebServices.POST_RETRIEVE_TYPE_ROW).execute(message,"");
-        */
 
     }
     /*
@@ -230,7 +219,7 @@ here are the results from calling whereactivity for gps coordinates
         welcome.setVisibility(View.VISIBLE);
         logout.setVisibility(View.INVISIBLE);
         login.setVisibility(View.VISIBLE);
-      //  quit.setVisibility(View.VISIBLE);
+
     }
 
     private void setUILocationFailed(){
@@ -241,26 +230,24 @@ here are the results from calling whereactivity for gps coordinates
         statusColor.setVisibility(View.VISIBLE);
         login.setVisibility(View.INVISIBLE);
         logout.setVisibility(View.INVISIBLE);
-      //  quit.setVisibility(View.VISIBLE);
 
     }
-
+    // there is no data from db, either because it failed or was empty
     private void setUINoLogData(){
-        // there is no data from db, either because it failed or was empty
         statusColor.setImageResource(R.drawable.orange_square);
         statusColor.setVisibility(View.VISIBLE);
         logout.setVisibility(View.INVISIBLE);
         login.setVisibility(View.VISIBLE);
-     //   quit.setVisibility(View.VISIBLE);
         welcome.setText("Clock data unavalable.");
         welcome.setTextColor(Color.YELLOW);
         welcome.setVisibility(View.VISIBLE);
     }
+/*
+   results of webservicetask check for application state (eg, last login type)
 
+ */
     @Override
     public void onTaskCompleted(String value) {
-        //results of webservicetask check for application state (eg, last login type)
-      //  Toast.makeText(this, "login status: " + value, Toast.LENGTH_LONG).show();
         if(value.length()>0){
             if(Integer.parseInt(value)==0){
                 isLoggedIn=true;
@@ -273,7 +260,6 @@ here are the results from calling whereactivity for gps coordinates
             else {
                 setUIClockedOut();
             }
-
         } else {
             setUINoLogData();
         }

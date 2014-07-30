@@ -32,37 +32,7 @@ public class RestWebServices {
     public static int  POST_RETRIEVE_ROW = 3;
     public static int  POST_RETRIEVE_TYPE_ROW = 4;
 
-    public static String postEntry(int worker_id, int entry_type, String latitude, String longitude) {
-        // Create a new HttpClient and Post Header
-        HttpClient httpclient = new DefaultHttpClient();
-        String link="http://ineeduneed.com/clockwork/clockwork_insert.php";
-        HttpPost httppost = new HttpPost(link);
-        try {
-            List<NameValuePair> params = new ArrayList<NameValuePair>(4);
-            params.add(new BasicNameValuePair("worker_id", String.valueOf(worker_id)));
-            params.add(new BasicNameValuePair("entry_type", String.valueOf(entry_type)));
-            params.add(new BasicNameValuePair("latitude", latitude));
-            params.add(new BasicNameValuePair("longitude", longitude));
-            httppost.setEntity(new UrlEncodedFormEntity(params));
-            HttpResponse response = httpclient.execute(httppost);
-            BufferedReader in = new BufferedReader
-                    (new InputStreamReader(response.getEntity().getContent()));
-            StringBuffer sb = new StringBuffer("");
-            String line="";
-            while ((line = in.readLine()) != null) {
-                sb.append(line);
-                break;
-            }
-            in.close();
-            return sb.toString();
-        } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
-            return new String("Exception: " + e.getMessage());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            return new String("Exception: " + e.getMessage());
-        }
-    }
+
 
 
     public static String postSelectRowsAsJSONString() {
@@ -123,70 +93,7 @@ public class RestWebServices {
         }
     }
 
-    public static String postVerifyUserObtainWorkerId(String phone, String pass) {
-        // Create a new HttpClient and Post Header
-        HttpClient httpclient = new DefaultHttpClient();
-        String link="http://ineeduneed.com/clockwork/clockwork_login_post2.php";
-        HttpPost httppost = new HttpPost(link);
 
-        try {
-            // Add your data
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-            nameValuePairs.add(new BasicNameValuePair("phone_num", phone));
-            nameValuePairs.add(new BasicNameValuePair("password", pass));
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            // Execute HTTP Post Request
-            HttpResponse response = httpclient.execute(httppost);
-            BufferedReader in = new BufferedReader
-                    (new InputStreamReader(response.getEntity().getContent()));
-            StringBuffer sb = new StringBuffer("");
-            String line="";
-            while ((line = in.readLine()) != null) {
-                sb.append(line);
-                break;
-            }
-            in.close();
-            return sb.toString();
-        } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
-            return new String("Exception: " + e.getMessage());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            return new String("Exception: " + e.getMessage());
-        }
-    }
-
-    public static String obtainLastEntryType(String workerId) {
-        // Create a new HttpClient and Post Header
-        HttpClient httpclient = new DefaultHttpClient();
-        String link="http://ineeduneed.com/clockwork/clockwork_status.php";
-        HttpPost httppost = new HttpPost(link);
-
-        try {
-            // Add your data
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-            nameValuePairs.add(new BasicNameValuePair("worker_id", workerId));
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            // Execute HTTP Post Request
-            HttpResponse response = httpclient.execute(httppost);
-            BufferedReader in = new BufferedReader
-                    (new InputStreamReader(response.getEntity().getContent()));
-            StringBuffer sb = new StringBuffer("");
-            String line="";
-            while ((line = in.readLine()) != null) {
-                sb.append(line);
-                break;
-            }
-            in.close();
-            return sb.toString();
-        } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
-            return new String("Exception: " + e.getMessage());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            return new String("Exception: " + e.getMessage());
-        }
-    }
 
     public static String getData(String user, String pass) {
         String link = "http://ineeduneed.com/clockwork/clockwork_login_get.php?user="
