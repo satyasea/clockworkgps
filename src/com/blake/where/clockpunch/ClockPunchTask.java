@@ -3,23 +3,26 @@ package com.blake.where.clockpunch;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import com.blake.where.ClockWorkUserEntry;
+
 public class ClockPunchTask extends AsyncTask<String,Void,String>{
 
-    private String userId;
+    private int userId;
     private Context context;
     private int entry_type;
     private String latitude;
     private String longitude;
 
-    public ClockPunchTask(Context context, int userId, int entry_type, String latitude, String longitude) {
-        if(context == null || userId == 0 || latitude == null || longitude == null){
+
+    public ClockPunchTask(Context context, ClockWorkUserEntry entry) {
+        if(context == null || entry.getId() == 0 || entry.getLat() == null || entry.getLongit() == null){
             return;
         }
         this.context = context;
-        this.userId= String.valueOf(userId);
-        this.entry_type=entry_type;
-        this.latitude=latitude;
-        this.longitude=longitude;
+        this.userId= entry.getId();
+        this.entry_type=entry.getEntryType();
+        this.latitude=entry.getLat();
+        this.longitude=entry.getLongit();
     }
 
     @Override

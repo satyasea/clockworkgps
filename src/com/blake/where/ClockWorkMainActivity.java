@@ -32,6 +32,10 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
     Button login;
     Button logout;
 
+    ClockWorkUserEntry entry;
+
+
+
 
     /**
      * Called when the activity is first created.
@@ -79,6 +83,8 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
             txt.setText("Login Fail!");
         }else {
             txt.setText(id);
+            entry = new ClockWorkUserEntry(Integer.valueOf(id));
+
         }
 
         //check app login state / status, results are received by onTaskCompleted(String value)
@@ -142,34 +148,18 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
 
     private void login(){
         if(isLoggedIn) return;
-
-
         //todo redo entry object
-        ClockWorkUserEntry entry = new ClockWorkUserEntry();
         entry.setEntryType(ENTRY_TYPE_LOGIN);
         entry.setEntryTime(new Date());
-
-
-
-
-
         Intent i = new Intent(this, WhereActivity.class);
         startActivityForResult(i, 0);
-
     }
 
 
     private void logout(){
         if(!isLoggedIn) return;
-
-
-        //todo redo entry object
-        ClockWorkUserEntry entry = new ClockWorkUserEntry();
         entry.setEntryType(ENTRY_TYPE_LOGOUT);
         entry.setEntryTime(new Date());
-
-
-
         Intent i = new Intent(this, WhereActivity.class);
         startActivityForResult(i, 1);
     }
@@ -186,7 +176,9 @@ here are the results from calling whereactivity for gps coordinates
                 if(null!=data){
                     coords[0] = data.getStringExtra("lat");
                     coords[1]= data.getStringExtra("long");
-                    new ClockPunchTask(this, Integer.valueOf(txt.getText().toString()), ENTRY_TYPE_LOGIN,  coords[0], coords[1]).execute("");
+                    entry.setLat(coords[0]);
+                    entry.setLongit(coords[1]);
+                    new ClockPunchTask(this, entry).execute("");
                 }
                 isLoggedIn=true;
                 setUIClockedIn();
@@ -196,7 +188,9 @@ here are the results from calling whereactivity for gps coordinates
                 if(null!=data){
                     coords[0] = data.getStringExtra("lat");
                     coords[1]= data.getStringExtra("long");
-                    new ClockPunchTask(this, Integer.valueOf(txt.getText().toString()), ENTRY_TYPE_LOGOUT, coords[0], coords[1]).execute("");
+                    entry.setLat(coords[0]);
+                    entry.setLongit(coords[1]);
+                    new ClockPunchTask(this, entry).execute("");
                 }
                 isLoggedIn=false;
                 setUIClockedOut();

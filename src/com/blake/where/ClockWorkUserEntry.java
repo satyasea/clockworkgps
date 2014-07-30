@@ -1,5 +1,6 @@
 package com.blake.where;
 
+import java.security.Timestamp;
 import java.util.Date;
 
 /**
@@ -7,6 +8,39 @@ import java.util.Date;
  */
 public class ClockWorkUserEntry {
 
+
+    private int id;
+
+    private int entryType;
+
+    private String lat;
+    private String longit;
+
+    private Date entryTime;
+
+    public Date getEntryTime() {
+        return entryTime;
+    }
+
+    public void setEntryTime(Date entryTime) {
+        this.entryTime = entryTime;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLongit() {
+        return longit;
+    }
+
+    public void setLongit(String longit) {
+        this.longit = longit;
+    }
 
     public ClockWorkUserEntry(int id){
         this.id=id;
@@ -17,22 +51,6 @@ public class ClockWorkUserEntry {
     }
 
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
     public int getId() {
 
         return id;
@@ -42,21 +60,8 @@ public class ClockWorkUserEntry {
         this.id = id;
     }
 
-    private int id;
-    private String username;
-    private String phone;
-    private String pass;
-    private int entryType;
-    private Date entryTime;
 
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public int getEntryType() {
         return entryType;
@@ -66,11 +71,8 @@ public class ClockWorkUserEntry {
         this.entryType = entryType;
     }
 
-    public Date getEntryTime() {
-        return entryTime;
-    }
 
-    public void setEntryTime(Date entryTime) {
-        this.entryTime = entryTime;
-    }
+
+
+
 }

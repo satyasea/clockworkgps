@@ -22,7 +22,7 @@ public class ClockFoo {
 
     private void sendSMS(ClockWorkUserEntry clock, long time){
         SimpleDateFormat ft =new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
-        String message = "ClockWork:" + clock.getUsername() + " " + (clock.getEntryType() == 0 ? "Login " : "Logout ") + ft.format(clock.getEntryTime()) + " Total: "+time + " sec.";
+        String message = "ClockWork:" + clock.getId() + " " + (clock.getEntryType() == 0 ? "Login " : "Logout ") + ft.format(clock.getEntryTime()) + " Total: "+time + " sec.";
         String phoneNo=TARGET_PHONE;
         try {
             SmsManager smsManager = SmsManager.getDefault();
@@ -36,7 +36,7 @@ public class ClockFoo {
 
     private void sendSMS(Context c, ClockWorkUserEntry clock){
         SimpleDateFormat ft =new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
-        String message = "ClockWork:" + clock.getUsername() + " " + (clock.getEntryType() == 0 ? "Login " : "Logout ") + ft.format(clock.getEntryTime());
+        String message = "ClockWork:" + clock.getId() + " " + (clock.getEntryType() == 0 ? "Login " : "Logout ") + ft.format(clock.getEntryTime());
         String phoneNo=TARGET_PHONE;
         try {
             SmsManager smsManager = SmsManager.getDefault();
@@ -57,8 +57,8 @@ public class ClockFoo {
         emailIntent.setType("plain/text");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{TARGET_EMAIL});
         SimpleDateFormat ft =new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
-        String text = "Clock Entry:" + clock.getUsername() + " " + (clock.getEntryType() == 0 ? "Login " : "Logout ") + ft.format(clock.getEntryTime());
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "ClockWork Entry: " + clock.getUsername() + " - " + (clock.getEntryType() == 0 ? "Login " : "Logout "));
+        String text = "Clock Entry:" + clock.getId() + " " + (clock.getEntryType() == 0 ? "Login " : "Logout ") + ft.format(clock.getEntryTime());
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "ClockWork Entry: " + clock.getId() + " - " + (clock.getEntryType() == 0 ? "Login " : "Logout "));
         emailIntent.putExtra(Intent.EXTRA_TEXT, text);
         src.startActivity(Intent.createChooser(emailIntent, "Mailing ClockWork Entry..."));
     }
