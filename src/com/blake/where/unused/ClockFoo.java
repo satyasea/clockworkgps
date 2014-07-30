@@ -1,10 +1,11 @@
-package com.blake.where;
+package com.blake.where.unused;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.telephony.SmsManager;
 import android.widget.Toast;
+import com.blake.where.ClockWorkUserEntry;
 
 import java.text.SimpleDateFormat;
 

@@ -1,7 +1,11 @@
-package com.blake.where;
+package com.blake.where.unused;
 
  import android.content.Context;
  import android.os.AsyncTask;
+ import com.blake.where.clockpunch.ClockPunchWebService;
+ import com.blake.where.state.ClockStateWebService;
+ import com.blake.where.login.LoginWebService;
+ import com.blake.where.OnTaskCompleted;
 
 
 public class WebServiceTask extends AsyncTask<String,Void,String>{

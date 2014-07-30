@@ -1,4 +1,4 @@
-package com.blake.where;
+package com.blake.where.unused;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
