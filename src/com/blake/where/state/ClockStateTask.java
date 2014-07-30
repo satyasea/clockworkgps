@@ -1,7 +1,8 @@
-package com.blake.where;
+package com.blake.where.state;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import com.blake.where.OnTaskCompleted;
 
 
 public class ClockStateTask extends AsyncTask<String,Void,String>{
