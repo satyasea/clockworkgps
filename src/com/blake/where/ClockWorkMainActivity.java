@@ -21,8 +21,7 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
 
 
     boolean isLoggedIn = false;
-    static String TARGET_EMAIL="saltyfog@gmail.com";
-    static String TARGET_PHONE="8325881755";
+
     ImageView statusColor;
 
     private TextView status,result;
@@ -266,92 +265,7 @@ here are the results from calling whereactivity for gps coordinates
 
     }
 
-    private void sendSMS(ClockWorkUserEntry clock, long time){
-        SimpleDateFormat ft =new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
-        String message = "ClockWork:" + clock.getUsername() + " " + (clock.getEntryType() == 0 ? "Login " : "Logout ") + ft.format(clock.getEntryTime()) + " Total: "+time + " sec.";
-        String phoneNo=TARGET_PHONE;
-        try {
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(phoneNo, null, message, null, null);
-        //    Toast.makeText(getApplicationContext(), "SMS sent.",                   Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-        //    Toast.makeText(getApplicationContext(),                   "SMS faild, please try again.",                Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-    }
 
-    private void sendSMS(ClockWorkUserEntry clock){
-        SimpleDateFormat ft =new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
-        String message = "ClockWork:" + clock.getUsername() + " " + (clock.getEntryType() == 0 ? "Login " : "Logout ") + ft.format(clock.getEntryTime());
-        String phoneNo=TARGET_PHONE;
-        try {
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(phoneNo, null, message, null, null);
-            Toast.makeText(getApplicationContext(), "SMS sent.",
-                    Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(),
-                    "SMS faild, please try again.",
-                    Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-    }
-
-
-    private void sendEntryEmail(ClockWorkUserEntry clock){
-        final Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        emailIntent.setType("plain/text");
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{TARGET_EMAIL});
-        SimpleDateFormat ft =new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
-        String text = "Clock Entry:" + clock.getUsername() + " " + (clock.getEntryType() == 0 ? "Login " : "Logout ") + ft.format(clock.getEntryTime());
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "ClockWork Entry: " + clock.getUsername() + " - " + (clock.getEntryType() == 0 ? "Login " : "Logout "));
-        emailIntent.putExtra(Intent.EXTRA_TEXT, text);
-        this.startActivity(Intent.createChooser(emailIntent, "Mailing ClockWork Entry..."));
-    }
-
-/*
-    private void showEntries(){
-        List<ClockWorkUserEntry> entries = db.getAllEntries();
-        StringBuffer sb = new StringBuffer();
-        SimpleDateFormat ft =new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
-        for(ClockWorkUserEntry clock: entries){
-            sb.append("Clock Entry:" + clock.getUsername() + " " + (clock.getEntryType() == 0 ? "Login " : "Logout ") + ft.format(clock.getEntryTime()));
-            sb.append("\n");
-        }
-        if(entries.size() > 0 && entries.get(entries.size()-1).getEntryType()==0){
-            isLoggedIn=true;
-        }
-        String status = (isLoggedIn ? "Logged In " : "Logged Out");
-        sb.append("\n" + "Logged in? " + status + "\n");
-       if(isLoggedIn) txt.setTextColor(Color.GREEN);
-        else txt.setTextColor(Color.RED);
-        txt.setText(sb.toString());
-    }
-    */
-/*
-    private long calculateTotalTime(){
-
-        List<ClockWorkUserEntry> entries = db.getAllEntries();
-
-        List<Long> workSeconds = new ArrayList<Long>();
-        long returnVal=0l;
-        if(entries.size()>1){
-            for(int i = 0; i < entries.size();){
-                ClockWorkUserEntry login = entries.get(i);
-                if(entries.get(i+1)!=null){
-                    ClockWorkUserEntry logout = entries.get(i+1);
-                    i +=2;
-                    workSeconds.add(     (logout.getEntryTime().getTime() - login.getEntryTime().getTime() )/ 1000    );
-                }
-
-            }
-            for(Long seconds: workSeconds){
-                returnVal+=seconds;
-            }
-        }
-        return returnVal;
-    }
-*/
 
 
 }
