@@ -26,8 +26,7 @@ public class LoginActivity extends Activity implements OnTaskCompleted {
         setContentView(R.layout.activity_login);
         phoneField = (EditText)findViewById(R.id.editText1);
         passwordField = (EditText)findViewById(R.id.editText2);
-
-       message = (TextView)findViewById(R.id.textView3);
+        message = (TextView)findViewById(R.id.textView3);
         phoneField.setFocusable(true);
         //next calls onStart()
     }
@@ -115,7 +114,7 @@ public class LoginActivity extends Activity implements OnTaskCompleted {
             passwordField.setText("");
             return;
         }else{
-            new WebServiceTask(this,this,RestWebServices.POST_RETRIEVE_ROW).execute(phone,password);
+            new LoginTask(this,this).execute(phone,password);
         }
     }
 
@@ -129,7 +128,7 @@ public class LoginActivity extends Activity implements OnTaskCompleted {
             passwordField.setText("");
             return;
         }
-      //  Toast.makeText(this, "web service data item: " + value, Toast.LENGTH_LONG).show();
+        //  Toast.makeText(this, "web service data item: " + value, Toast.LENGTH_LONG).show();
         Intent i = new Intent(this, ClockWorkMainActivity.class);
         i.putExtra("worker_id", value);
         this.startActivity(i);
