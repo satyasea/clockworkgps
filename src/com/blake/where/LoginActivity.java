@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.blake.where.login.LoginTask;
 
 public class LoginActivity extends Activity implements OnTaskCompleted {
 
@@ -114,7 +114,7 @@ public class LoginActivity extends Activity implements OnTaskCompleted {
             passwordField.setText("");
             return;
         }else{
-            new LoginTask(this,this).execute(phone,password);
+            new LoginTask(this,this).execute(phone, password);
         }
     }
 

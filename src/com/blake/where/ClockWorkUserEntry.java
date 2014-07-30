@@ -6,7 +6,46 @@ import java.util.Date;
  * Created by blake on 6/28/14.
  */
 public class ClockWorkUserEntry {
+
+
+    public ClockWorkUserEntry(int id){
+        this.id=id;
+    }
+
+    public ClockWorkUserEntry(){
+
+    }
+
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public int getId() {
+
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private int id;
     private String username;
+    private String phone;
+    private String pass;
     private int entryType;
     private Date entryTime;
 

@@ -4,18 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.blake.where.clockpunch.ClockPunchTask;
+import com.blake.where.location.WhereActivity;
+import com.blake.where.state.ClockStateTask;
 
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
 
@@ -144,11 +142,17 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
 
     private void login(){
         if(isLoggedIn) return;
+
+
         //todo redo entry object
         ClockWorkUserEntry entry = new ClockWorkUserEntry();
-        entry = new ClockWorkUserEntry();
         entry.setEntryType(ENTRY_TYPE_LOGIN);
         entry.setEntryTime(new Date());
+
+
+
+
+
         Intent i = new Intent(this, WhereActivity.class);
         startActivityForResult(i, 0);
 
@@ -157,10 +161,15 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
 
     private void logout(){
         if(!isLoggedIn) return;
+
+
         //todo redo entry object
         ClockWorkUserEntry entry = new ClockWorkUserEntry();
-        entry.setEntryType(1);
+        entry.setEntryType(ENTRY_TYPE_LOGOUT);
         entry.setEntryTime(new Date());
+
+
+
         Intent i = new Intent(this, WhereActivity.class);
         startActivityForResult(i, 1);
     }
