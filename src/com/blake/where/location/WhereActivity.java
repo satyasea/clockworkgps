@@ -1,4 +1,4 @@
-package com.blake.where;
+package com.blake.where.location;
 
 
 import android.app.Activity;
