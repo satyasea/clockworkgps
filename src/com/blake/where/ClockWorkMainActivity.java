@@ -189,7 +189,7 @@ here are the results from calling whereactivity for gps coordinates
                 if(null!=data){
                     coords[0] = data.getStringExtra("lat");
                     coords[1]= data.getStringExtra("long");
-                    new ClockPunchTask(this, Integer.valueOf(txt.getText().toString()), ENTRY_TYPE_LOGIN, RestWebServices.POST_INSERT_ROW, dbRows, coords[0], coords[1]).execute(String.valueOf(txt.getText().toString()), "", "");
+                    new ClockPunchTask(this, Integer.valueOf(txt.getText().toString()), ENTRY_TYPE_LOGIN,  coords[0], coords[1]).execute("");
                 }
                 isLoggedIn=true;
                 setUIClockedIn();
@@ -199,7 +199,7 @@ here are the results from calling whereactivity for gps coordinates
                 if(null!=data){
                     coords[0] = data.getStringExtra("lat");
                     coords[1]= data.getStringExtra("long");
-                    new ClockPunchTask(this, Integer.valueOf(txt.getText().toString()), ENTRY_TYPE_LOGOUT, RestWebServices.POST_INSERT_ROW, dbRows, coords[0], coords[1]).execute(String.valueOf(txt.getText().toString()), "", "");
+                    new ClockPunchTask(this, Integer.valueOf(txt.getText().toString()), ENTRY_TYPE_LOGOUT, coords[0], coords[1]).execute("");
                 }
                 isLoggedIn=false;
                 setUIClockedOut();
