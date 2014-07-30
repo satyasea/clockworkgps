@@ -61,4 +61,7 @@ public class ClockFoo {
         emailIntent.putExtra(Intent.EXTRA_TEXT, text);
         src.startActivity(Intent.createChooser(emailIntent, "Mailing ClockWork Entry..."));
     }
+
+
+
 }
