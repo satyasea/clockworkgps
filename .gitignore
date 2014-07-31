@@ -1,4 +1,10 @@
 
-gen/
-out/
 .idea/workspace.xml
+
+gen/com/blake/where/BuildConfig.java
+gen/com/blake/where/Manifest.java
+gen/com/blake/where/R.java
+out
+build.xml
+*.class
+gen/com/blake/where
