@@ -26,17 +26,10 @@ import java.util.List;
  */
 public class ClockStateWebService {
 
-    //web services methods
-    public static int  POST_INSERT_ROW = 0;
-    public static int  POST_RETRIEVE_ROWS = 1;
-    public static int  GET_RETRIEVE_ROW = 2;
-    public static int  POST_RETRIEVE_ROW = 3;
-    public static int  POST_RETRIEVE_TYPE_ROW = 4;
-
 
     public static String obtainLastEntryType(String workerId) {
         HttpClient httpclient = new DefaultHttpClient();
-        String link="http://ineeduneed.com/clockwork/clockwork_status.php";
+        String link="http://ineeduneed.com/clockwork/clock_state.php";
         HttpPost httppost = new HttpPost(link);
 
         try {
