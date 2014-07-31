@@ -116,6 +116,8 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
         super.onResume();
        //todo rebuild ui
         //check app login state / status
+        //check app login state / status, results are received by onTaskCompleted(String value)
+        new ClockStateTask(this,this).execute(String.valueOf(entry.getId()));
 
     }
     /*
