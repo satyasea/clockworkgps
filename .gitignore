@@ -10,3 +10,4 @@ gen/com/blake/where/BuildConfig.java
 gen/com/blake/where/Manifest.java
 gen/com/blake/where/R.java
 *.apk
+*.class
