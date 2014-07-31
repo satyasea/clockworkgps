@@ -205,7 +205,7 @@ here are the results from calling whereactivity for gps coordinates
     private void setUIClockedIn(){
         statusColor.setImageResource(R.drawable.green_square);
         statusColor.setVisibility(View.VISIBLE);
-        welcome.setText("ClockZ In");
+        welcome.setText("Clocked In");
         welcome.setTextColor(Color.GREEN);
         welcome.setVisibility(View.VISIBLE);
         login.setVisibility(View.INVISIBLE);
