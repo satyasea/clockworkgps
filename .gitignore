@@ -4,8 +4,6 @@
 out/
 gem/
 build.xml
-gen/com/blake/where/Manifest.java
-gen/com/blake/where/Manifest.java
 out/production/WhereAmI/WhereAmI.apk
 gen/com/blake/where/BuildConfig.java
 gen/com/blake/where/Manifest.java
