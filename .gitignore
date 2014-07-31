@@ -1,5 +1,6 @@
 
 .idea/workspace.xml
+.idea/
 out/
 gem/
 build.xml
@@ -11,3 +12,16 @@ gen/com/blake/where/Manifest.java
 gen/com/blake/where/R.java
 *.apk
 *.class
+gen
+.idea
+.idea/.name
+.idea/encodings.xml
+.idea/uiDesigner.xml
+.idea/compiler.xml
+.idea/copyright
+.idea/modules.xml
+.idea/scopes
+.idea/misc.xml
+.idea/libraries
+.idea/vcs.xml
+WhereAmI.iml
