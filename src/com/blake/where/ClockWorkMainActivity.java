@@ -240,7 +240,7 @@ here are the results from calling whereactivity for gps coordinates
         statusColor.setVisibility(View.VISIBLE);
         logout.setVisibility(View.INVISIBLE);
         login.setVisibility(View.VISIBLE);
-        welcome.setText("Clock data unavalable.");
+        welcome.setText("Clock data unavailable.");
         welcome.setTextColor(Color.YELLOW);
         welcome.setVisibility(View.VISIBLE);
     }
