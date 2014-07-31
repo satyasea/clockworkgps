@@ -11,31 +11,20 @@ import android.widget.TextView;
 import com.blake.where.clockpunch.ClockPunchTask;
 import com.blake.where.location.WhereActivity;
 import com.blake.where.state.ClockStateTask;
-
-
 import java.util.Date;
 
 public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
 
-
-    boolean isLoggedIn = false;
-
     ImageView statusColor;
-
-    private TextView status,result;
     private TextView txt;
     private TextView welcome;
-    private String[] coords = new String[2];
-    static int ENTRY_TYPE_LOGIN = 0;
-    static int ENTRY_TYPE_LOGOUT = 1;
-
     Button login;
     Button logout;
-
+    static int ENTRY_TYPE_LOGIN = 0;
+    static int ENTRY_TYPE_LOGOUT = 1;
+    private String[] coords = new String[2];
+    boolean isLoggedIn = false;
     ClockWorkUserEntry entry;
-
-
-
 
     /**
      * Called when the activity is first created.
@@ -44,17 +33,12 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
-        status = new TextView(this);
-        result  = new TextView(this);
         txt = (TextView) findViewById(R.id.txt);
         txt.setVisibility(View.VISIBLE);
-
         statusColor=(ImageView) findViewById(R.id.img);
         welcome = (TextView) findViewById(R.id.hello);
         login = (Button) findViewById(R.id.btn_login);
         logout = (Button) findViewById(R.id.btn_logout);
-      //  quit = (Button) findViewById(R.id.btn_quit);
 
         //build button activity anon class
         Button.OnClickListener l = new Button.OnClickListener()
@@ -63,19 +47,13 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
             public void onClick(View v) {
                 if (v == login){
                     login();
-
-                } else if (v == logout)
-                {
+                } else if (v == logout)  {
                     logout();
-                }/*else if (v == quit){
-                    finish();
-                }*/
+                }
             }
         };
-
         login.setOnClickListener(l);
         logout.setOnClickListener(l);
-
         //get worker id from previous loginactivity
         Intent intent = getIntent();
         String id = intent.getStringExtra("worker_id");
@@ -84,11 +62,25 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
         }else {
             txt.setText(id);
             entry = new ClockWorkUserEntry(Integer.valueOf(id));
-
         }
-
         //check app login state / status, results are received by onTaskCompleted(String value)
         new ClockStateTask(this,this).execute(id);
+    }
+
+    private void login(){
+        if(isLoggedIn) return;
+        entry.setEntryType(ENTRY_TYPE_LOGIN);
+        entry.setEntryTime(new Date());
+        Intent i = new Intent(this, WhereActivity.class);
+        startActivityForResult(i, 0);
+    }
+
+    private void logout(){
+        if(!isLoggedIn) return;
+        entry.setEntryType(ENTRY_TYPE_LOGOUT);
+        entry.setEntryTime(new Date());
+        Intent i = new Intent(this, WhereActivity.class);
+        startActivityForResult(i, 1);
     }
 
     /*
@@ -114,8 +106,6 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
     @Override
     public void onResume(){
         super.onResume();
-       //todo rebuild ui
-        //check app login state / status
         //check app login state / status, results are received by onTaskCompleted(String value)
         new ClockStateTask(this,this).execute(String.valueOf(entry.getId()));
 
@@ -148,108 +138,11 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
     }
     //end lifecycle overrides
 
-    private void login(){
-        if(isLoggedIn) return;
-        //todo redo entry object
-        entry.setEntryType(ENTRY_TYPE_LOGIN);
-        entry.setEntryTime(new Date());
-        Intent i = new Intent(this, WhereActivity.class);
-        startActivityForResult(i, 0);
-    }
-
-
-    private void logout(){
-        if(!isLoggedIn) return;
-        entry.setEntryType(ENTRY_TYPE_LOGOUT);
-        entry.setEntryTime(new Date());
-        Intent i = new Intent(this, WhereActivity.class);
-        startActivityForResult(i, 1);
-    }
-
 
     /*
-here are the results from calling whereactivity for gps coordinates
- */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK){
-            if(requestCode==0){
-                if(null!=data){
-                    coords[0] = data.getStringExtra("lat");
-                    coords[1]= data.getStringExtra("long");
-                    entry.setLat(coords[0]);
-                    entry.setLongit(coords[1]);
-                    new ClockPunchTask(this, entry).execute("");
-                }
-                isLoggedIn=true;
-                setUIClockedIn();
+       results of webservicetask check for application state (eg, last login type)
 
-            }
-            if(requestCode==1){
-                if(null!=data){
-                    coords[0] = data.getStringExtra("lat");
-                    coords[1]= data.getStringExtra("long");
-                    entry.setLat(coords[0]);
-                    entry.setLongit(coords[1]);
-                    new ClockPunchTask(this, entry).execute("");
-                }
-                isLoggedIn=false;
-                setUIClockedOut();
-            }
-
-        }else {
-            isLoggedIn=false;
-            setUILocationFailed();
-        }
-    }
-
-    private void setUIClockedIn(){
-        statusColor.setImageResource(R.drawable.green_square);
-        statusColor.setVisibility(View.VISIBLE);
-        welcome.setText("Clocked In");
-        welcome.setTextColor(Color.GREEN);
-        welcome.setVisibility(View.VISIBLE);
-        login.setVisibility(View.INVISIBLE);
-        logout.setVisibility(View.VISIBLE);
-       // quit.setVisibility(View.INVISIBLE);
-    }
-
-    private void setUIClockedOut(){
-        statusColor.setImageResource(R.drawable.red_square);
-        statusColor.setVisibility(View.VISIBLE);
-        welcome.setText("Clocked Out");
-        welcome.setTextColor(Color.RED);
-        welcome.setVisibility(View.VISIBLE);
-        logout.setVisibility(View.INVISIBLE);
-        login.setVisibility(View.VISIBLE);
-
-    }
-
-    private void setUILocationFailed(){
-        welcome.setText("Exit and Enable Location.");
-        welcome.setTextColor(Color.YELLOW);
-        welcome.setVisibility(View.VISIBLE);
-        statusColor.setImageResource(R.drawable.orange_square);
-        statusColor.setVisibility(View.VISIBLE);
-        login.setVisibility(View.INVISIBLE);
-        logout.setVisibility(View.INVISIBLE);
-
-    }
-    // there is no data from db, either because it failed or was empty
-    private void setUINoLogData(){
-        statusColor.setImageResource(R.drawable.orange_square);
-        statusColor.setVisibility(View.VISIBLE);
-        logout.setVisibility(View.INVISIBLE);
-        login.setVisibility(View.VISIBLE);
-        welcome.setText("Clock data unavailable.");
-        welcome.setTextColor(Color.YELLOW);
-        welcome.setVisibility(View.VISIBLE);
-    }
-/*
-   results of webservicetask check for application state (eg, last login type)
-
- */
+     */
     @Override
     public void onTaskCompleted(String value) {
         if(value.length()>0){
@@ -267,10 +160,80 @@ here are the results from calling whereactivity for gps coordinates
         } else {
             setUINoLogData();
         }
-
     }
 
+    /*
+here are the results from calling whereactivity for gps coordinates
+ */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            if(null!=data){
+                coords[0] = data.getStringExtra("lat");
+                coords[1]= data.getStringExtra("long");
+                entry.setLat(coords[0]);
+                entry.setLongit(coords[1]);
+                /*
+                todo: Here is where the clockpunchtask is executed after the entry is built with location data
+                 */
+                new ClockPunchTask(this, entry).execute("");
+            }
+            /*
+            todo: After the clockpunchtask runs, then the UI state is reset based upon request code (login type),
+            todo: should tighten this up and get a confirmation from the web service that the insert was successful
+             */
+            if(requestCode==ENTRY_TYPE_LOGIN){
+                isLoggedIn=true;
+                setUIClockedIn();
+            }else{
+                isLoggedIn=false;
+                setUIClockedOut();
+            }
+        }else {
+            isLoggedIn=false;
+            setUILocationFailed();
+        }
+    }
 
+    private void setUIClockedIn(){
+        statusColor.setImageResource(R.drawable.green_square);
+        statusColor.setVisibility(View.VISIBLE);
+        welcome.setText("Clocked In");
+        welcome.setTextColor(Color.GREEN);
+        welcome.setVisibility(View.VISIBLE);
+        login.setVisibility(View.INVISIBLE);
+        logout.setVisibility(View.VISIBLE);
+    }
 
+    private void setUIClockedOut(){
+        statusColor.setImageResource(R.drawable.red_square);
+        statusColor.setVisibility(View.VISIBLE);
+        welcome.setText("Clocked Out");
+        welcome.setTextColor(Color.RED);
+        welcome.setVisibility(View.VISIBLE);
+        logout.setVisibility(View.INVISIBLE);
+        login.setVisibility(View.VISIBLE);
+    }
+
+    private void setUILocationFailed(){
+        welcome.setText("Exit and Enable Location.");
+        welcome.setTextColor(Color.YELLOW);
+        welcome.setVisibility(View.VISIBLE);
+        statusColor.setImageResource(R.drawable.orange_square);
+        statusColor.setVisibility(View.VISIBLE);
+        login.setVisibility(View.INVISIBLE);
+        logout.setVisibility(View.INVISIBLE);
+    }
+    // there is no data from db, either because it failed or was empty
+    private void setUINoLogData(){
+        statusColor.setImageResource(R.drawable.orange_square);
+        statusColor.setVisibility(View.VISIBLE);
+        logout.setVisibility(View.INVISIBLE);
+        login.setVisibility(View.VISIBLE);
+        welcome.setText("Clock data unavailable.");
+        welcome.setTextColor(Color.YELLOW);
+        welcome.setVisibility(View.VISIBLE);
+    }
 
 }
