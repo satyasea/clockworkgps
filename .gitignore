@@ -1,9 +1,3 @@
-gen/com/blake/where/BuildConfig.java
-WhereAmI.iml
-.idea/workspace.xml
-WhereAmI.iml
-gen/com/blake/where/BuildConfig.java
-gen/com/blake/where/Manifest.java
-gen/com/blake/where/BuildConfig.java
-*.class
-gen/com/blake/where/R.java
+
+gen/
+out/
