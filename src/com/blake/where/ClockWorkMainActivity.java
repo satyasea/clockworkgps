@@ -11,6 +11,11 @@ import android.widget.TextView;
 import com.blake.where.clockpunch.ClockPunchTask;
 import com.blake.where.location.WhereActivity;
 import com.blake.where.state.ClockStateTask;
+import com.blake.where.tsheets.TsheetCreateWebService;
+import com.blake.where.tsheets.TsheetsCreateGeoTask;
+import com.blake.where.tsheets.TsheetsCreateTask;
+import com.blake.where.tsheets.TsheetsEditTask;
+
 import java.util.Date;
 
 public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
@@ -70,7 +75,7 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
     private void login(){
         if(isLoggedIn) return;
         entry.setEntryType(ENTRY_TYPE_LOGIN);
-        entry.setEntryTime(new Date());
+      //  entry.setEntryTime(new Date());
         Intent i = new Intent(this, WhereActivity.class);
         startActivityForResult(i, 0);
     }
@@ -78,7 +83,7 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
     private void logout(){
         if(!isLoggedIn) return;
         entry.setEntryType(ENTRY_TYPE_LOGOUT);
-        entry.setEntryTime(new Date());
+       // entry.setEntryTime(new Date());
         Intent i = new Intent(this, WhereActivity.class);
         startActivityForResult(i, 1);
     }
@@ -178,6 +183,17 @@ here are the results from calling whereactivity for gps coordinates
                 todo: Here is where the clockpunchtask is executed after the entry is built with location data
                  */
                 new ClockPunchTask(this, entry).execute("");
+                //todo: tsheets
+
+                int markId = 1636899;
+                int blakeId = 1635347;
+                if(requestCode==ENTRY_TYPE_LOGIN) {
+                    new TsheetsCreateTask(this, blakeId).execute("");
+                    new TsheetsCreateGeoTask(this, entry, blakeId).execute("");
+                }else{
+                    new TsheetsCreateGeoTask(this, entry, blakeId).execute("");
+                    new TsheetsEditTask(this, blakeId).execute("");
+                }
             }
             /*
             todo: After the clockpunchtask runs, then the UI state is reset based upon request code (login type),
