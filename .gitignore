@@ -3,3 +3,9 @@ out/
 gen/
 build.xml
 
+gen/com/blake/where/BuildConfig.java
+.idea/.name
+.idea/misc.xml
+.idea/modules.xml
+.idea/workspace.xml
+gen/com/blake/where/BuildConfig.java
