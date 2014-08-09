@@ -10,7 +10,10 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.blake.where.login.ClockworkUserBean;
 import com.blake.where.login.LoginTask;
+import com.blake.where.login.LoginUtil;
 
 public class LoginActivity extends Activity implements OnTaskCompleted {
 
@@ -120,6 +123,7 @@ public class LoginActivity extends Activity implements OnTaskCompleted {
 
     @Override
     public void onTaskCompleted(String value) {
+
         if(value.length()==0){
             message.setText("No worker found.");
             message.setTextColor(Color.RED);
@@ -128,9 +132,12 @@ public class LoginActivity extends Activity implements OnTaskCompleted {
             passwordField.setText("");
             return;
         }
-        //  Toast.makeText(this, "web service data item: " + value, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "web service data item: " + value, Toast.LENGTH_LONG).show();
         Intent i = new Intent(this, ClockWorkMainActivity.class);
-        i.putExtra("worker_id", value);
+        ClockworkUserBean bean = LoginUtil.getUserBeanFromResultsJSON(value);
+        i.putExtra("worker_id", String.valueOf(bean.getWorkerId()));
+        i.putExtra("tsheets_id", String.valueOf(bean.getTsheetsId()));
+        i.putExtra("fname", String.valueOf(bean.getFname()));
         this.startActivity(i);
     }
 

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.blake.where.clockpunch.ClockPunchTask;
 import com.blake.where.location.WhereActivity;
+import com.blake.where.login.ClockworkUserBean;
 import com.blake.where.state.ClockStateTask;
 import com.blake.where.tsheets.TsheetCreateWebService;
 import com.blake.where.tsheets.TsheetsCreateGeoTask;
@@ -30,6 +31,7 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
     private String[] coords = new String[2];
     boolean isLoggedIn = false;
     ClockWorkUserEntry entry;
+    ClockworkUserBean user;
 
     /**
      * Called when the activity is first created.
@@ -61,15 +63,21 @@ public class ClockWorkMainActivity extends Activity implements OnTaskCompleted {
         logout.setOnClickListener(l);
         //get worker id from previous loginactivity
         Intent intent = getIntent();
-        String id = intent.getStringExtra("worker_id");
-        if(id.length()==0){
+        String workerId = intent.getStringExtra("worker_id");
+        String tsheetsId = intent.getStringExtra("tsheets_id");
+        String fname = intent.getStringExtra("fname");
+        user = new ClockworkUserBean();
+        user.setWorkerId(Integer.valueOf(workerId));
+        user.setTsheetsId(Integer.valueOf(tsheetsId));
+        user.setFname(fname);
+        if(user.getWorkerId()==0 || user.getTsheetsId()==0){
             txt.setText("Login Fail!");
         }else {
-            txt.setText(id);
-            entry = new ClockWorkUserEntry(Integer.valueOf(id));
+            txt.setText(user.getFname());
+            entry = new ClockWorkUserEntry(user.getWorkerId());
         }
         //check app login state / status, results are received by onTaskCompleted(String value)
-        new ClockStateTask(this,this).execute(id);
+        new ClockStateTask(this,this).execute(String.valueOf(user.getWorkerId()));
     }
 
     private void login(){
@@ -184,15 +192,12 @@ here are the results from calling whereactivity for gps coordinates
                  */
                 new ClockPunchTask(this, entry).execute("");
                 //todo: tsheets
-
-                int markId = 1636899;
-                int blakeId = 1635347;
                 if(requestCode==ENTRY_TYPE_LOGIN) {
-                    new TsheetsCreateTask(this, blakeId).execute("");
-                    new TsheetsCreateGeoTask(this, entry, blakeId).execute("");
+                    new TsheetsCreateTask(this, user.getTsheetsId()).execute("");
+                    new TsheetsCreateGeoTask(this, entry, user.getTsheetsId()).execute("");
                 }else{
-                    new TsheetsCreateGeoTask(this, entry, blakeId).execute("");
-                    new TsheetsEditTask(this, blakeId).execute("");
+                    new TsheetsCreateGeoTask(this, entry, user.getTsheetsId()).execute("");
+                    new TsheetsEditTask(this, user.getTsheetsId()).execute("");
                 }
             }
             /*
